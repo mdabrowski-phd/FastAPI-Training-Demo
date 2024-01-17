@@ -1,16 +1,42 @@
-# This is a sample Python script.
+from fastapi import FastAPI, Body
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = FastAPI()
+
+tasks_data = [
+    {"description": "Learn FastAPI", "priority": 3, "is_complete": True},
+    {"description": "Do exercises", "priority": 2, "is_complete": False}
+]
+
+users_data = [
+    {"username": "Andrzej", "password": "qwerty123", "is_admin": True},
+    {"username": "Andżela", "password": "hasło1!", "is_admin": False}
+]
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.get("/")
+def root():
+    return {"message": "Hello World"}
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@app.get("/tasks")
+def get_tasks():
+    return {"results": tasks_data}
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+@app.get("/users")
+def get_users():
+    return {"results": users_data}
+
+
+@app.post("/tasks")
+def create_task(body: dict = Body(...)):  # type annotations + Ellipsis (...)
+    new_task = body  # dict
+    tasks_data.append(new_task)
+    return {"message": "New task added", "details": new_task}
+
+
+@app.post("/users")
+def create_task(body: dict = Body(...)):
+    new_user = body
+    users_data.append(new_user)
+    return {"message": "New user added", "details": new_user}
