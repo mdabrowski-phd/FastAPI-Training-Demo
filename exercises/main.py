@@ -1,6 +1,7 @@
 import random
 
 from fastapi import FastAPI, HTTPException, status
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 
@@ -48,7 +49,7 @@ def root():
 
 @app.get("/tasks")
 def get_tasks():
-    return {"result": tasks_data}
+    return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"result": tasks_data})
 
 
 @app.get("/tasks/{task_id}")
@@ -59,12 +60,12 @@ def get_task_by_id(task_id: int):
         message = {"error": f"Task with id {task_id} does not exist"}
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
 
-    return {"result": target_task}
+    return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"result": target_task})
 
 
 @app.get("/users")
 def get_users():
-    return {"result": users_data}
+    return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"result": users_data})
 
 
 @app.get("/users/{user_id}")
@@ -75,11 +76,11 @@ def get_user_by_id(user_id: int):
         message = {"error": f"User with id {user_id} does not exist"}
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=message)
 
-    return {"result": target_user}
+    return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"result": target_user})
 
 
-@app.post("/tasks")
-def create_task(body: TaskBody):  # type annotations + Ellipsis (...)
+@app.post("/tasks", status_code=status.HTTP_201_CREATED)
+def create_task(body: TaskBody):  # type annotations
 
     new_task = body.model_dump()  # dict
     random_id = random.randint(1, 10000)
@@ -89,7 +90,7 @@ def create_task(body: TaskBody):  # type annotations + Ellipsis (...)
     return {"message": "New task added", "details": new_task}
 
 
-@app.post("/users")
+@app.post("/users", status_code=status.HTTP_201_CREATED)
 def create_user(body: UserBody):
 
     new_user = body.model_dump()
