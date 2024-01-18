@@ -1,3 +1,12 @@
+"""
+local server: python3 -m uvicorn app.main:app --reload
+local endpoint: http://localhost:8000 (or http://127.0.0.1:8000)
+
+tutorial: https://fastapi.tiangolo.com/tutorial/
+API platform: https://www.postman.com/
+"""
+
+
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 
