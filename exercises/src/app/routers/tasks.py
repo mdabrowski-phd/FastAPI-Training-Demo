@@ -24,12 +24,12 @@ tasks_data = [
 router = APIRouter()
 
 
-@router.get("/tasks")
+@router.get("/tasks", tags=["tasks"])
 def get_tasks():
     return JSONResponse(status_code=status.HTTP_200_OK, content={"result": tasks_data})
 
 
-@router.get("/tasks/{task_id}")
+@router.get("/tasks/{task_id}", tags=["tasks"])
 def get_task_by_id(task_id: int):
     target_task = get_item_by_id(tasks_data, task_id)
 
@@ -40,7 +40,7 @@ def get_task_by_id(task_id: int):
     return JSONResponse(status_code=status.HTTP_200_OK, content={"result": target_task})
 
 
-@router.post("/tasks", status_code=status.HTTP_201_CREATED)
+@router.post("/tasks", tags=["tasks"], status_code=status.HTTP_201_CREATED)
 def create_task(body: TaskBody):  # type annotations
 
     new_task = body.model_dump()  # dict
@@ -51,7 +51,7 @@ def create_task(body: TaskBody):  # type annotations
     return {"message": "New task added", "details": new_task}
 
 
-@router.delete("/tasks/{task_id}")
+@router.delete("/tasks/{task_id}", tags=["tasks"])
 def delete_task_by_id(task_id: int):
     target_index = get_item_index_by_id(tasks_data, task_id)
 
@@ -63,7 +63,7 @@ def delete_task_by_id(task_id: int):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.put("/tasks/{task_id}")
+@router.put("/tasks/{task_id}", tags=["tasks"])
 def update_task_by_id(task_id: int, body: TaskBody):
     target_index = get_item_index_by_id(tasks_data, task_id)
 

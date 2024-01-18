@@ -23,12 +23,12 @@ users_data = [
 router = APIRouter()
 
 
-@router.get("/users")
+@router.get("/users", tags=["users"])
 def get_users():
     return JSONResponse(status_code=status.HTTP_200_OK, content={"result": users_data})
 
 
-@router.get("/users/{user_id}")
+@router.get("/users/{user_id}", tags=["users"])
 def get_user_by_id(user_id: int):
     target_user = get_item_by_id(users_data, user_id)
 
@@ -39,7 +39,7 @@ def get_user_by_id(user_id: int):
     return JSONResponse(status_code=status.HTTP_200_OK, content={"result": target_user})
 
 
-@router.post("/users", status_code=status.HTTP_201_CREATED)
+@router.post("/users", tags=["users"], status_code=status.HTTP_201_CREATED)
 def create_user(body: UserBody):
 
     new_user = body.model_dump()
@@ -50,7 +50,7 @@ def create_user(body: UserBody):
     return {"message": "New user added", "details": new_user}
 
 
-@router.delete("/users/{user_id}")
+@router.delete("/users/{user_id}", tags=["users"])
 def delete_user_by_id(user_id: int):
     target_index = get_item_index_by_id(users_data, user_id)
 
@@ -62,7 +62,7 @@ def delete_user_by_id(user_id: int):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.put("/users/{user_id}")
+@router.put("/users/{user_id}", tags=["users"])
 def update_user_by_id(user_id: int, body: UserBody):
     target_index = get_item_index_by_id(users_data, user_id)
 
