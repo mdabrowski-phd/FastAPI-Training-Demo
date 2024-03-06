@@ -10,7 +10,7 @@ API platform: https://www.postman.com/
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 
-from app.routers import tasks, users
+from routers import tasks, users
 
 app = FastAPI(
     docs_url="/api/docs",
