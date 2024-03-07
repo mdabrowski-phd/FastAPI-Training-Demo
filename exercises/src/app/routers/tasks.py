@@ -3,8 +3,8 @@ import random
 from fastapi import HTTPException, status, Response, APIRouter
 from fastapi.responses import JSONResponse
 
-from exercises.src.app.models import TaskBody
-from exercises.src.app.utils import get_item_by_id, get_item_index_by_id
+from app.models import TaskBody
+from app.utils import get_item_by_id, get_item_index_by_id
 
 
 tasks_data = [
